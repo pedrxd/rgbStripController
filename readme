@@ -1,0 +1,46 @@
+Project writed by pedrxd licensed under gpl3.
+
+
+Now, you can control your rgb strip with this program directly uploading this code to it.
+Actualy i am starting to implement some animations and alghoritms for do a awesome things.
+As i say, i am starting, probably there are just a few animations and mode, but this will
+be growing as i have time for write code.
+
+==============================
+Features
+==============================
+- Control using bluetooth
+- Rainbow mode
+- Strike mode
+- Smooth change between colors
+- Control brithness
+- Change speed
+
+==============================
+Bluetooth command syntax
+==============================
+The basic structure is
+<var><value>
+Some var don't need a value and all can be concated in the same command.
+<var><value><var><var><value>
+For a fast response from arduino a ',' is required where the command terminated.
+<var><value><var><var><value>,
+
+The available var are:
+- r   Change the color of red, Value range 0-255
+- g   Change the color of green, Value range 0-255
+- b   Change the color of blue, Value range 0-255
+- a   Set brightness, Value range 0-255
+
+- d   Set the delay or timing or duration for all animations, Value on Milliseconds
+
+- s   It swicth off the led smoothly in the defined duration, Value not needed
+- m   You can select mode using it, Value range 0-3 (Where 0:StaticColor;1:RainBow;2:Strike;3:RandomStrike)
+
+Real Examples:
+ - Set red high, blue high, green high with 100 of brightness.
+	r255b255g255a100,
+ - Set red high, blue 100, and off it smoothly on 2 seconds.
+	r255b100s,
+ - Set rainbowmode
+	m1,
