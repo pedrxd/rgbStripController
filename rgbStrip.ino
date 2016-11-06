@@ -123,40 +123,11 @@ void loop()
   {
     case M_RAINBOW:
     {
-      if(strip.isAnimationRunning() == A_NOTHING && step == 0)
+      if(strip.isAnimationRunning() == A_NOTHING)
       {
-        strip.startAnimation(A_SMOOTHCHANGE, duration, rainbow[step]);
-        step = 1;
-      }
-      if(strip.isAnimationRunning() == A_NOTHING && step == 1)
-      {
-        strip.startAnimation(A_SMOOTHCHANGE, duration, rainbow[step]);
-        step = 2;
-      }
-      if(strip.isAnimationRunning() == A_NOTHING && step == 2)
-      {
-        strip.startAnimation(A_SMOOTHCHANGE, duration, rainbow[step]);
-        step = 3;
-      }
-      if(strip.isAnimationRunning() == A_NOTHING && step == 3)
-      {
-        strip.startAnimation(A_SMOOTHCHANGE, duration, rainbow[step]);
-        step = 4;
-      }
-      if(strip.isAnimationRunning() == A_NOTHING && step == 4)
-      {
-        strip.startAnimation(A_SMOOTHCHANGE, duration, rainbow[step]);
-        step = 5;
-      }
-      if(strip.isAnimationRunning() == A_NOTHING && step == 5)
-      {
-        strip.startAnimation(A_SMOOTHCHANGE, duration, rainbow[step]);
-        step = 6;
-      }
-      if(strip.isAnimationRunning() == A_NOTHING && step == 6)
-      {
-        strip.startAnimation(A_SMOOTHCHANGE, duration, rainbow[step]);
-        step = 0;
+        strip.startAnimation(A_SMOOTHCHANGE, duration, rainbow[step++]);
+        if(step > 6)
+          step = 0;
       }
       break;
     }
