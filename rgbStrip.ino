@@ -46,6 +46,7 @@ enum rgbModes
   M_RAINBOW,
   M_STRIKE,
   M_RANDOMSTRIKE,
+  M_BREATHING,
 };
 
 void setup()
@@ -107,6 +108,7 @@ void loop()
         lcolor.b = strip.getRGB().b;
         lcolor.g = strip.getRGB().g;
         mode = Serial.parseInt();
+        strip.stopAnimation();
       }break;
       //Set mode to STATICCOLOR and turnoff the strip
       case 's':
@@ -129,8 +131,7 @@ void loop()
         if(step > 6)
           step = 0;
       }
-      break;
-    }
+    }break;
     case M_STRIKE:
     {
       //If it is the time for update
@@ -147,9 +148,7 @@ void loop()
           strip.setRGB(black);
         }
       }
-      break;
-      break;
-    }
+    }break;
     case M_RANDOMSTRIKE:
     {
       //If it is the time for update
@@ -168,8 +167,23 @@ void loop()
         step = newcolor;
         strip.setRGB(rainbow[step]);
       }
-      break;
-    }
+     
+    }break;
+    case M_BREATHING:
+    {
+      if(strip.isAnimationRunning() == A_NOTHING)
+      {
+        if(step)
+        {
+          strip.startAnimation(A_SMOOTHCHANGE, duration, lcolor);
+          step = 0;
+        }else
+        {
+          strip.startAnimation(A_SMOOTHCHANGE, duration, black);
+          step = 1;
+        }
+      }
+    }break;
   }
 }
 

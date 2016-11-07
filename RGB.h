@@ -75,6 +75,7 @@ public:
   byte getGreen(void);
   byte getBrightness(void);
   startAnimation(animationType at, int duration, rgbColor& color);
+  stopAnimation(void);
   processAnimation(void);
   animationType isAnimationRunning(void);
 
@@ -210,7 +211,6 @@ RGB::startAnimation(animationType at, int duration, rgbColor& color)
     if(at == A_SMOOTHCHANGE) 
       calculateFadeFrames();
 }
-
 ////////////////////////////////////
 // Return current animation running
 ////////////////////////////////////
@@ -218,14 +218,17 @@ animationType RGB::isAnimationRunning(void)
 {
   return strip.animation.at;
 }
-
+RGB::stopAnimation(void)
+{
+  strip.animation.at = A_NOTHING;
+}
 //////////////////////////////////////////
 // Needed one time on the main loop for
 // calculate the next change for the rgb
 //////////////////////////////////////////
 RGB::processAnimation(void)
 {
-  long time = millis() - strip.animation.startat;
+  unsigned long time = millis() - strip.animation.startat;
   switch (strip.animation.at)
   {
     case A_SMOOTHCHANGE:
