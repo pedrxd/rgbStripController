@@ -65,13 +65,8 @@ rgbColor lcolor;
 int duration = 1200;
 rgbModes mode = M_STATICCOLOR;
 
-void loop()
+void commandParser()
 {
-  //Check if is necesary to process some change on the Color
-  //non-block
-  strip.processAnimation();
-
-  //Read and parse commands from the bluetooth module
   while(Serial.available() > 0)
   {
     switch(Serial.read())
@@ -118,7 +113,16 @@ void loop()
       }break;
     }
   }
+}
 
+void loop()
+{
+  //Check if is necesary to process some change on the Color
+  //non-block
+  strip.processAnimation();
+
+  //Read and parse commands from the bluetooth module
+  commandParser();
 
   //Execute mode 
   switch(mode)
