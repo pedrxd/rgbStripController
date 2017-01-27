@@ -1,7 +1,7 @@
 /*
-*   
+*
 *   Copyright (C) 2016 Pedro Ruiz
-*   
+*
 *   This file is part of rgbStrip.
 *
 *   rgbStrip is free software: you can redistribute it and/or modify
@@ -19,11 +19,10 @@
 *
 */
 
+#include <Arduino.h>
 
 #ifndef RGB_h
 #define RGB_h
-#include <Arduino.h>
-
 
 enum animationType
 {
@@ -40,10 +39,10 @@ typedef struct {
 typedef struct
 {
   animationType at;
-  
+
   long startat;
   int duration;
-  
+
   rgbColor color;
   rgbColor startcolor;
   float rgbPerMillis[3];
@@ -53,9 +52,9 @@ typedef struct{
   byte REDP;
   byte GREENP;
   byte BLUEP;
-  
+
   animation animation;
-  
+
   rgbColor  currentColor;
   byte      brightness;
 } rgbStrip;
@@ -88,6 +87,7 @@ private:
 };
 
 #endif
+
 
 copyRGBColor(rgbColor& from, rgbColor& to)
 {
@@ -166,10 +166,10 @@ byte RGB::getBrightness(void)
 }
 /*
  * This function is a dirty hack for set brigthness
- * if you can control only R G B and no the positive. 
- * 
+ * if you can control only R G B and no the positive.
+ *
  * It is recommended to use a fourth control on the positive
- * for the brigthness. 
+ * for the brigthness.
  */
 byte RGB::calculateBrightness(byte from)
 {
@@ -208,7 +208,7 @@ RGB::startAnimation(animationType at, int duration, rgbColor& color)
     strip.animation.startat = millis();
     copyRGBColor(color, strip.animation.color);
     copyRGBColor(strip.currentColor, strip.animation.startcolor);
-    if(at == A_SMOOTHCHANGE) 
+    if(at == A_SMOOTHCHANGE)
       calculateFadeFrames();
 }
 ////////////////////////////////////
@@ -252,5 +252,3 @@ RGB::processAnimation(void)
 //****************************
 //End of the animation api
 //****************************
-
-
