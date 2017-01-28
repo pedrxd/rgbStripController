@@ -22,13 +22,11 @@
 
 #include <Arduino.h>
 #include "RgbController.h"
+#include "LedController.h"
 
 //Initializate strip
 RgbController strip = RgbController(3,9,10);
-
-//Secondary light
-int lightPin = 4;
-byte stateLP = 0;
+LedController led   = LedController(4);
 
 rgbColor white = {255,255,255};
 rgbColor black = {0,0,0};
@@ -61,9 +59,7 @@ void setup()
 
   //Switch off the strip when starting.
   strip.setRGB(black);
-  //Secondary light
-  pinMode(lightPin, OUTPUT);
-  digitalWrite(lightPin, LOW);
+
   //Setting frequency to max for no blinks on led.
   TCCR1B = TCCR1B & 0b11111000 | 0x01;  //10 / 9 -> 31250Hz
   TCCR2B = TCCR2B & 0b11111000 | 0x01;  //3      -> 31250Hz
@@ -89,25 +85,11 @@ void commandParser()
         switch(Serial.parseInt())
         {
           case 0:
-            if(!stateLP)
-            {
-
-              stateLP = 1;
-              digitalWrite(lightPin,HIGH);
-            }else
-            {
-              stateLP = 0;
-              digitalWrite(lightPin,LOW);
-            }
-            break;
+            led.turnOff();
           case 1:
-            stateLP = 1;
-            digitalWrite(lightPin,HIGH);
-            break;
+            led.turnOn();
           case 2:
-            stateLP = 0;
-            digitalWrite(lightPin,LOW);
-            break;
+            led.strike(duration);
         }
       }break;
       //Colors , send a complete rgb color and with smoothchange mode if selected
@@ -184,6 +166,8 @@ void loop()
   //Check if is necesary to process some animation
   //non-block
   strip.processAnimation();
+  //Check if necesary update the state of led
+  led.processStrike();
 
   //Read and parse commands from the bluetooth module
   commandParser();
