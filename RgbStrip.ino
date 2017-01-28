@@ -19,10 +19,12 @@
 *
 */
 
-#include "RGB.h"
+
+#include <Arduino.h>
+#include "RgbController.h"
 
 //Initializate strip
-RGB strip = RGB(3,9,10);
+RgbController strip = RgbController(3,9,10);
 
 //Secondary light
 int lightPin = 4;
@@ -74,74 +76,6 @@ rgbColor lcolor;
 
 int duration = 1200;
 rgbModes mode = M_STATICCOLOR;
-
-//Event for manual controller
-byte r, l;
-
-
-void manualController()
-{
-  byte ar, al;
-
-  ar = map(analogRead(A1), 0, 1024, 0, 8);
-  al = map(analogRead(A0), 0, 1024, 0, M_MAXMODES+2); //We plus two becouse there is one mode for change brighness and speed;
-
-  //First potenciometro para colores
-  if(r != ar) //Check if event happens
-  {
-    r = ar;
-    //If 0, switch off the leds
-    if(r == 0)
-    {
-      strip.setRGB(black);
-      return;
-    }
-
-    //if is static color, directly change the color
-    if(mode == M_STATICCOLOR)
-      strip.setRGB(rainbow[r-1]);
-    //If not, check current mode and process depending
-    else
-    {
-      copyRGBColor(rainbow[r], lcolor);
-      if(mode == M_STRIKE && step == 0)
-      {
-        strip.setRGB(rainbow[r]);
-      }
-    }
-  }
-
-  //Potenciometro para los modos
-  if(l !=al) //Check if event happens
-  {
-    l = al;
-    //Si el potenciometro de los colores esta en off y el de los modos en on, encender la luz
-    if(ar==0)
-    {
-      if(al!=0)
-      {
-        stateLP = 1;
-        digitalWrite(lightPin,HIGH);
-      }
-      else
-      {
-        stateLP = 0;
-        digitalWrite(lightPin,LOW);
-      }
-      return;
-    }
-    if(l < M_MAXMODES)
-    {
-      step = 0;
-      time = 0;
-      lcolor.r = strip.getRGB().r;
-      lcolor.b = strip.getRGB().b;
-      lcolor.g = strip.getRGB().g;
-      mode = l;
-      strip.stopAnimation();
-    }
-  }
-}
 
 void commandParser()
 {
@@ -253,9 +187,6 @@ void loop()
 
   //Read and parse commands from the bluetooth module
   commandParser();
-
-  //Read the manual control
-  manualController();
 
   //Execute mode
   switch(mode)
