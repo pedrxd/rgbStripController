@@ -39,12 +39,13 @@ public:
   LedController(byte ledPin);
   turnOn(void);
   turnOff(void);
+  stopStrike(void);
   strike(int duration);
 
   ledState getState(void);
   ledMode  getMode(void);
 
-  processStrike();
+  processStrike(void);
 private:
   byte ledPin;
   ledState ledState;

@@ -85,16 +85,22 @@ void commandParser()
         switch(Serial.parseInt())
         {
           case 0:
+            led.stopStrike();
             led.turnOff();
+            break;
           case 1:
+            led.stopStrike();
             led.turnOn();
+            break;
           case 2:
             led.strike(duration);
+            break;
           case 3:
             if(!led.getState())
               led.turnOn();
             else
               led.turnOff();
+           break;
         }
       }break;
       //Colors , send a complete rgb color and with smoothchange mode if selected

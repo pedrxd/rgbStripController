@@ -32,20 +32,22 @@ LedController::turnOn(void)
 {
   digitalWrite(ledPin, HIGH);
   ledState = STATE_ON;
-  ledMode  = MODE_NORMAL;
 }
 LedController::turnOff(void)
 {
   digitalWrite(ledPin, LOW);
   ledState = STATE_OFF;
-  ledMode  = MODE_NORMAL;
+}
+LedController::stopStrike(void)
+{
+  ledMode = MODE_NORMAL;
 }
 LedController::strike(int delay)
 {
   duration = delay;
   ledMode  = MODE_STRIKE;
 }
-ledMode   LedController::getMode(void)
+ledMode LedController::getMode(void)
 {
   return ledMode;
 }
