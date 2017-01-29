@@ -90,6 +90,11 @@ void commandParser()
             led.turnOn();
           case 2:
             led.strike(duration);
+          case 3:
+            if(!led.getState())
+              led.turnOn();
+            else
+              led.turnOff();
         }
       }break;
       //Colors , send a complete rgb color and with smoothchange mode if selected
