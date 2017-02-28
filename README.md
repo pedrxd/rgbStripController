@@ -13,6 +13,42 @@
 
  - **Powerfull command parser**
 
+## How to configurate it for your Arduino
+All the configuration needed to change is on the RgbStrip.ino file. First of all
+your should change the initializer of the RgbController
+
+> RgbController strip = RgbController(3,9,10);
+
+Where '3' is the pin that control red light; '9' is green; and '10' is blue. I suggest to use that pins becouse the frequency which they works is changed to opperate to the bigest one, removing little blinks.
+
+After that, if you have a secondary light, you should set correctly the pin where is it. If not, you should remove all the code related. (Is useless for you)
+ - Remove the first *case on the commandParser()* function.
+   >   //Turn on/off secondary light
+         case 'l':
+         {
+           switch(Serial.parseInt())
+           {
+             case 0:
+               led.stopStrike();
+               led.turnOff();
+               break;
+             case 1:
+               led.stopStrike();
+               led.turnOn();
+               break;
+             case 2:
+               led.strike(duration);
+               break;
+             case 3:
+               if(!led.getState())
+                 led.turnOn();
+               else
+                 led.turnOff();
+              break;
+           }
+         }break;
+ - Remove *led.processStrike();* that is on loop() function.
+   >   led.processStrike();
 
 ## Command syntax
 The basic structure is:
