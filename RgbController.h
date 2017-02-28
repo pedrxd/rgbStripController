@@ -40,7 +40,7 @@ typedef struct
   animationType at;
 
   long startat;
-  int duration;
+  long duration;
 
   rgbColor color;
   rgbColor startcolor;
@@ -72,7 +72,7 @@ public:
   byte getBlue(void);
   byte getGreen(void);
   byte getBrightness(void);
-  startAnimation(animationType at, int duration, rgbColor& color);
+  startAnimation(animationType at, long duration, rgbColor& color);
   stopAnimation(void);
   processAnimation(void);
   animationType isAnimationRunning(void);

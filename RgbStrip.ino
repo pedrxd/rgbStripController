@@ -29,18 +29,18 @@ RgbController strip = RgbController(3,9,10);
 LedController led   = LedController(4);
 
 rgbColor white = {255,255,255};
-rgbColor black = {0,0,0};
+rgbColor black  = {0,0,0};
 
 //Full rainbow colors -
-rgbColor rainbow[7] =
+#define CHROMATICCOUNT 6
+rgbColor chromaticCircle[CHROMATICCOUNT] =
 {
-  {255,255,255},
-  {255,255,0},
-  {255,0,255},
-  {255,0,0},
-  {0,255,255},
-  {0,255,0},
-  {0,0,255}
+  {0,255,0},    //Green
+  {255,255,0},  //Yellow
+  {255,0,0},    //Red
+  {255,0,255},  //Magenta
+  {0,0,255},    //Blue
+  {0,255,255},  //Cyan
 };
 
 enum rgbModes
@@ -70,7 +70,7 @@ int step = 0;
 unsigned long time = 0;
 rgbColor lcolor;
 
-int duration = 1200;
+long duration = 1200;
 rgbModes mode = M_STATICCOLOR;
 
 void commandParser()
@@ -188,10 +188,11 @@ void loop()
   {
     case M_RAINBOW:
     {
+
       if(strip.isAnimationRunning() == A_NOTHING)
       {
-        strip.startAnimation(A_SMOOTHCHANGE, duration, rainbow[step++]);
-        if(step > 6)
+        strip.startAnimation(A_SMOOTHCHANGE, duration, chromaticCircle[step++]);
+        if(step > CHROMATICCOUNT-1)
           step = 0;
       }
     }break;
@@ -224,11 +225,11 @@ void loop()
         //Check if it is not the same color
         do
         {
-          newcolor = random(6);
+          newcolor = random(CHROMATICCOUNT-1);
         }while(step == newcolor);
 
         step = newcolor;
-        strip.setRGB(rainbow[step]);
+        strip.setRGB(chromaticCircle[step]);
       }
 
     }break;

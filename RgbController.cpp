@@ -121,7 +121,7 @@ RgbController::calculateFadeFrames(void)
 }
 
 //For start animation
-RgbController::startAnimation(animationType at, int duration, rgbColor& color)
+RgbController::startAnimation(animationType at, long duration, rgbColor& color)
 {
     strip.animation.at = at;
     strip.animation.duration = duration;
